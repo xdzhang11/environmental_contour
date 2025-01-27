@@ -2,9 +2,16 @@
 clear;
 clc;
 addpath('nataf');
+addpath('../gmm');
 
 % load meaurement data x1, x2
-load('res/data_measurement.mat');
+
+data_filename = 'onshore_detrend_150_180.mat';  % Data file to load
+f = fullfile('../data/hovsore_wind/data',data_filename);
+calmstd = load(f).calmstd;
+x1 = calmstd.u;
+x2 = calmstd.u_stdv;
+
 
 n_sample = numel(x1); % sample size
 
@@ -40,7 +47,8 @@ rho_x_MCS = corrcoef(x_i, x_j);
 rho_x_MCS = rho_x_MCS(1,2);
 fprintf('The correlation of coefficient estimated from nataf MCS sample is %2f\n', rho_x_MCS);
 
-save('res/sample_nataf.mat', 'x_i','x_j')
+filename = sprintf('res/sample_nataf_%s.mat', data_filename);
+save(filename, 'x_i','x_j')
 
 %% Copula
 u = cdf('Weibull',x1,pd_f1.A,pd_f1.B);
@@ -59,7 +67,7 @@ v = cdf('Lognormal',x2,ln_mu_j,ln_sigma_j);
 % Gumbel copula
 paramhat = copulafit('Gumbel',[u v]);
 r = copularnd('Gumbel',paramhat,n_sample); % correlated sample
-file_name = 'res/sample_copula_gumbel.mat';
+filename = sprintf('res/sample_copula_gumbel_%s.mat', data_filename);
 
 u_c = r(:,1);
 v_c = r(:,2);
@@ -70,7 +78,7 @@ rho_x_m = corrcoef(x_i, x_j);
 rho_x_MCS = rho_x_m(1,2);
 
 fprintf('The correlation of coefficient estimated from copula MCS sample is %2f\n', rho_x_MCS);
-save(file_name, 'x_i','x_j')
+save(filename, 'x_i','x_j')
 
 %% IEC sample
 x_i = wblrnd(pd_f1.A,pd_f1.B, [n_sample,1]);
@@ -84,4 +92,18 @@ x_j = wblrnd(a , b);
 
 roh_x_MCS = (mean(x_i.*x_j)-mu_i*mu_j)/sigma_i/sigma_j;
 fprintf('The correlation of coefficient estimated from IEC MCS sample is %2f\n', roh_x_MCS);
-save('res/sample_iec.mat', 'x_i','x_j')
+filename = sprintf('res/sample_iec_%s.mat', data_filename);
+save(filename, 'x_i','x_j')
+
+
+%% GMM sample
+
+model_filename = sprintf('gmm_model_%s', data_filename);  % Modify filename for saving model
+
+f = fullfile('res', model_filename);
+gmModel = load(f).gmModel;
+X_p = gmm_sample(gmModel, n_sample);
+x_i = X_p(:,1);
+x_j = X_p(:,2);
+filename = sprintf('res/sample_gmm_%s.mat', data_filename);
+save(filename, 'x_i','x_j')
