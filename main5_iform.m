@@ -16,7 +16,6 @@ title('50-year turbulence')
 
 hold on 
 
-
 n_m = 50*365*24*6;
 mu = 0;
 sigma = 1;
@@ -81,38 +80,3 @@ ylabel('\sigma_u (m/s)')
 
 
 
-%% MGM
-X(:,1) = x1;
-X(:,2) = x2;
-
-options = statset('Display','final','MaxIter', 1000);
-maxC = 8; % max number of components
-
-AIC = zeros(1,maxC);
-GMModels = cell(1,maxC);
-
-for k = 1:maxC
-    GMModels{k} = fitgmdist(X,k,'Options',options,'CovarianceType','diagonal');
-    AIC(k)= GMModels{k}.AIC;
-end
-
-[minAIC,numComponents] = min(AIC);
-
-BestModel = GMModels{numComponents};
-
-%%
-numP = 10000;
-xPlotLB = [0, 0];
-xPlotUB = [40, 7];
-[X1,X2] = meshgrid(linspace(xPlotLB(1),xPlotUB(1),sqrt(numP))',linspace(xPlotLB(2),xPlotUB(2),sqrt(numP))');
-xPlot = [X1(:) X2(:)];
-
-y_pdf_t = pdf(BestModel, xPlot);  % Theoretical pdf value
-y_pdf_t_r = reshape(y_pdf_t,sqrt(numP),sqrt(numP));   % Reshaped theoretical pdf value
-
-% contour(X1,X2,y_pdf_t_r,1/n_m,'LineStyle','-','color','b','LineWidth',1);
-
-%%
-[C,h] = contour(X1,X2,y_pdf_t_r,[3.8052e-07 0],'ShowText','on','LineStyle',':','color','r','LineWidth',3);
-
-% legend('a','b','c')
