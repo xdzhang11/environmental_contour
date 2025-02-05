@@ -3,7 +3,8 @@ clear;
 clc;
 close all;
 % figure;
-data_filename = 'onshore_detrend_45_135.mat';  % Data file to load
+% data_filename = 'onshore_detrend_45_135.mat';  % Data file to load
+data_filename = 'offshore_detrend.mat';  % Data file to load
 f = fullfile('../data/hovsore_wind/data',data_filename);
 calmstd = load(f).calmstd;
 x1 = calmstd.u;
@@ -46,7 +47,7 @@ plot(x_combined, y_combined, 'r+', 'Displayname' ,'GMM', 'LineWidth', 1);
 % 
 
 xPmin = [0 0];
-xPmax = [25 4];
+xPmax = [40 4];
 
 xlim([xPmin(1), xPmax(1)])
 ylim([xPmin(2), xPmax(2)])
