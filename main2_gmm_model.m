@@ -4,13 +4,13 @@ clc;
 addpath('../gmm');
 
 % Define the filename as a variable
-data_filename = 'onshore_detrend_150_180.mat';  % Data file to load
-model_filename = sprintf('gmm_model_%s', data_filename);  % Modify filename for saving model
+data_filename = 'offshore_detrend.mat';  % Data file to load
+model_filename = sprintf('model_gmm_%s', data_filename);  % Modify filename for saving model
 
 
 % Gaussian mixture model using matlab function
 %% load data x1 and x2
-f = fullfile('../data/hovsore_wind/data',filename);
+f = fullfile('../data/hovsore_wind/data',data_filename);
 calmstd = load(f).calmstd;
 x1 = calmstd.u;
 x2 = calmstd.u_stdv;
