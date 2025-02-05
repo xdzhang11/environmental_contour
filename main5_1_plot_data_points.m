@@ -1,7 +1,7 @@
 clear;
 clc;
 addpath('../utilities');
-data_filename = 'offshore_detrend.mat';  % Data file to load
+data_filename = 'offshore_detrend';  % Data file to load
 
 % % (1)--Nataf transformation
 % sample_title = 'Nataf transformation';
