@@ -4,7 +4,8 @@ clc;
 close all;
 addpath('../gmm');
 %% load data x1 and x2
-data_filename = 'onshore_detrend_45_135.mat';  % Data file to load
+% data_filename = 'onshore_detrend_45_135.mat';  % Data file to load
+data_filename = 'offshore_detrend.mat';  % Data file to load
 n_points = 100; 
 
 f = fullfile('../data/hovsore_wind/data',data_filename);

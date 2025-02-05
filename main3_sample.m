@@ -7,7 +7,7 @@ addpath('../utilities');
 
 % load meaurement data x1, x2
 
-data_filename = 'offshore_detrend.mat';  % Data file to load
+data_filename = 'offshore_detrend';  % Data file to load
 f = fullfile('../data/hovsore_wind/data',data_filename);
 calmstd = load(f).calmstd;
 x1 = calmstd.u;
@@ -99,7 +99,7 @@ save(filename, 'x_i','x_j')
 
 %% GMM sample
 
-model_filename = sprintf('gmm_model_%s', data_filename);  % Modify filename for saving model
+model_filename = sprintf('model_gmm_%s', data_filename);  % Modify filename for saving model
 
 f = fullfile('res', model_filename);
 gmModel = load(f).gmModel;
