@@ -3,10 +3,11 @@ clear;
 clc;
 addpath('nataf');
 addpath('../gmm');
+addpath('../utilities');
 
 % load meaurement data x1, x2
 
-data_filename = 'onshore_detrend_150_180.mat';  % Data file to load
+data_filename = 'offshore_detrend.mat';  % Data file to load
 f = fullfile('../data/hovsore_wind/data',data_filename);
 calmstd = load(f).calmstd;
 x1 = calmstd.u;
